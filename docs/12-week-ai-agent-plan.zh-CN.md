@@ -56,17 +56,17 @@
 
 ### 环境准备清单
 
-- [ ] 安装 `Python 3.10+`
-- [ ] 创建并激活虚拟环境
-- [ ] 安装基础依赖，例如：
+- [x] 安装 `Python 3.10+`
+- [x] 创建并激活虚拟环境
+- [x] 安装基础依赖，例如：
   - `openai` 或其他模型 SDK
   - `pydantic`
   - `rich`
   - `pytest`
-- [ ] 确认本机安装了 `rg`
-- [ ] 准备 `.env` 或其他加载密钥的方式
-- [ ] 准备一个测试用 repo
-- [ ] 创建这些目录：
+- [x] 确认本机安装了 `rg`
+- [x] 准备 `.env` 或其他加载密钥的方式
+- [x] 准备一个测试用 repo
+- [x] 创建这些目录：
   - `notes/`
   - `logs/`
   - `eval/`
@@ -188,6 +188,12 @@
 - `1h` structured output 和 tool call
 - `1h` 记笔记和整理
 
+### 建议参考资料
+
+- 必读：[OpenAI Developer Quickstart](https://platform.openai.com/docs/quickstart)；先把最小请求跑通。
+- 必读：[OpenAI Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs)；理解“合法 JSON”和“符合 schema”不是一回事。
+- 选读：[OpenAI Function Calling](https://platform.openai.com/docs/guides/function-calling)；为第 2 周的 loop 做准备。
+
 ### 建议小练习
 
 - 让模型直接回答一个问题
@@ -196,9 +202,9 @@
 
 ### 本周产出
 
-- `chat_basic.py`
-- `structured_output.py`
-- `single_tool.py`
+- `src/mini_coding_agent/chat_basic.py`
+- `src/mini_coding_agent/structured_output.py`
+- `src/mini_coding_agent/single_tool.py`
 - `notes/week1.md`
 
 ### 验收标准
@@ -261,6 +267,12 @@
 - `2h` 接工具注册和执行
 - `1h` 停止条件和日志
 
+### 建议参考资料
+
+- 必读：[Anthropic Tool Use Overview](https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview)；看清 tool call / tool result 的基本循环。
+- 必读：[OpenAI Conversation State](https://platform.openai.com/docs/guides/conversation-state)；理解多轮状态到底由谁保存。
+- 选读：[OpenAI Using Tools](https://platform.openai.com/docs/guides/tools)；补齐内置工具和自定义工具的整体视图。
+
 ### 建议内部数据结构
 
 你不必完全照抄，但建议尽早固定一种结构：
@@ -276,8 +288,8 @@ ToolDefinition = {
 
 ### 本周产出
 
-- `agent_loop.py`
-- `tools.py`
+- `src/mini_coding_agent/agent_loop.py`
+- `src/mini_coding_agent/tools.py`
 - `notes/week2.md`
 
 ### 验收标准
@@ -337,6 +349,12 @@ ToolDefinition = {
 - `2h` 重写工具描述
 - `1h` 对比实验
 - `1h` 记笔记
+
+### 建议参考资料
+
+- 必读：[Anthropic Prompt Engineering Overview](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)；建立 prompt 调优的总框架。
+- 必读：[OpenAI Prompting Guide](https://platform.openai.com/docs/guides/prompting)；补 prompt 版本化、变量和迭代方法。
+- 选读：[Anthropic Chain Complex Prompts](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/chain-prompts)；理解什么时候该拆 prompt，而不是继续堆指令。
 
 ### 建议使用对比表
 
@@ -415,9 +433,15 @@ ToolDefinition = {
 - `1h` 做输出截断和格式化
 - `2h` 测试问题和跑任务
 
+### 建议参考资料
+
+- 必读：[ripgrep User Guide](https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md)；这是代码搜索能力的底层工具手册。
+- 必读：[Python pathlib](https://docs.python.org/3/library/pathlib.html)；用标准库把路径约束和文件读取写扎实。
+- 选读：[Anthropic Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents)；重点看简单、可组合、可验证的 agent 设计思路。
+
 ### 本周产出
 
-- `repo_tools.py`
+- `src/mini_coding_agent/repo_tools.py`
 - `test_repo_tasks.md`
 - `notes/week4.md`
 
@@ -494,9 +518,15 @@ ToolDefinition = {
 - `1h` 失败输出格式化
 - `1h` 测试
 
+### 建议参考资料
+
+- 必读：[Python subprocess](https://docs.python.org/3/library/subprocess.html)；重点看 `run()`、`timeout` 和 security considerations。
+- 必读：[Python shlex](https://docs.python.org/3/library/shlex.html)；用它做参数切分和最基础的命令解析。
+- 选读：[OpenAI Safety in Building Agents](https://platform.openai.com/docs/guides/agent-builder-safety)；把 prompt injection 和工具滥用风险提前纳入设计。
+
 ### 本周产出
 
-- `command_runner.py`
+- `src/mini_coding_agent/command_runner.py`
 - `command_policy.md`
 - `notes/week5.md`
 
@@ -552,6 +582,12 @@ ToolDefinition = {
 - `1h` 先解释后修改
 - `2h` 用 bug case 测试
 
+### 建议参考资料
+
+- 必读：[git-diff 文档](https://git-scm.com/docs/git-diff)；理解 diff 的使用方式和输出边界。
+- 必读：[diff-format 文档](https://git-scm.com/docs/diff-format)；理解 patch 文本长什么样，便于你自己做格式约束。
+- 选读：[Anthropic Effective Harnesses for Long-Running Agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)；重点看“先验证、再提交答案”的工作流思想。
+
 ### Patch 审查清单
 
 在接受 patch 前，至少检查：
@@ -563,7 +599,7 @@ ToolDefinition = {
 
 ### 本周产出
 
-- `patch_generator.py`
+- `src/mini_coding_agent/patch_generator.py`
 - `examples/`
 - `notes/week6.md`
 
@@ -620,9 +656,9 @@ ToolDefinition = {
 不需要立刻最终定型，但建议尽量接近这种形式：
 
 ```bash
-python main.py \
+PYTHONPATH=src python -m mini_coding_agent.main \
   --task "Find why tests fail and propose a patch" \
-  --repo ./example_repo \
+  --repo ./sandbox/example_repo \
   --approve-run \
   --approve-patch
 ```
@@ -633,9 +669,15 @@ python main.py \
 - `1h` CLI 参数
 - `2h` 跑 5 个任务
 
+### 建议参考资料
+
+- 必读：[Python Argparse Tutorial](https://docs.python.org/3/howto/argparse.html)；先把 CLI 入口做得清楚、可解释、可复现。
+- 必读：[OpenAI Agents SDK Guide](https://platform.openai.com/docs/guides/agents-sdk/)；不是要你立刻上 SDK，而是借它看成熟 agent workflow 都抽象了什么。
+- 选读：[OpenAI Agents Best Practices](https://platform.openai.com/docs/guides/agents/best-practices)；对照自己的 CLI 工作流检查缺口。
+
 ### 本周产出
 
-- `main.py`
+- `src/mini_coding_agent/main.py`
 - `README.md`
 - `notes/week7.md`
 
@@ -709,9 +751,15 @@ python main.py \
 - `1h` 输出到文件
 - `2h` 做失败复盘
 
+### 建议参考资料
+
+- 必读：[OpenAI Agents SDK Tracing](https://openai.github.io/openai-agents-python/tracing/)；直接看一个成熟 tracing 体系会记录什么。
+- 必读：[OpenAI Trace Grading](https://platform.openai.com/docs/guides/trace-grading)；理解为什么仅有日志还不够，最好还能做结构化评估。
+- 选读：[OpenTelemetry Traces](https://opentelemetry.io/docs/concepts/signals/traces/)；借标准术语整理 `trace`、`span`、`attributes` 的概念。
+
 ### 本周产出
 
-- `tracing.py`
+- `src/mini_coding_agent/tracing.py`
 - `logs/`
 - `failure_taxonomy.md`
 - `notes/week8.md`
@@ -782,6 +830,12 @@ python main.py \
 - `1h` 设计评分格式
 - `2h` 跑 baseline
 
+### 建议参考资料
+
+- 必读：[OpenAI Evaluation Best Practices](https://platform.openai.com/docs/guides/evaluation-best-practices)；先把 eval 设计原则立住。
+- 必读：[OpenAI Agent Evals](https://platform.openai.com/docs/guides/agent-evals)；看 agent 级别 eval 和普通 prompt eval 的差异。
+- 选读：[Anthropic Demystifying Evals for AI Agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents)；补多轮、工具型系统的评测视角。
+
 ### 本周产出
 
 - `eval/tasks.json`
@@ -846,9 +900,15 @@ python main.py \
 - `2h` 实现摘要逻辑
 - `1h` 对比长任务表现
 
+### 建议参考资料
+
+- 必读：[Anthropic Effective Context Engineering for AI Agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)；这是本周最值得精读的一篇。
+- 必读：[OpenAI Conversation State](https://platform.openai.com/docs/guides/conversation-state)；重新回看状态管理，但这次从长任务稳定性角度看。
+- 选读：[Anthropic Prompt Caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)；理解哪些上下文适合复用，哪些适合按需加载。
+
 ### 本周产出
 
-- `context_manager.py`
+- `src/mini_coding_agent/context_manager.py`
 - `memory_notes.md`
 - `notes/week10.md`
 
@@ -912,6 +972,12 @@ python main.py \
 - `2h` 阅读
 - `1h` 画图
 - `1-2h` 看例子或做笔记
+
+### 建议参考资料
+
+- 必读：[MCP Architecture Overview](https://modelcontextprotocol.io/docs/learn/architecture)；先把 host / client / server 和 primitives 搞清楚。
+- 必读：[Understanding MCP Servers](https://modelcontextprotocol.io/docs/learn/server-concepts)；重点理解 tools、resources、prompts 的职责边界。
+- 选读：[MCP Inspector](https://modelcontextprotocol.io/docs/tools)；如果你真的跑例子，这会是最快的调试入口。
 
 ### 本周产出
 
@@ -984,10 +1050,16 @@ python main.py \
 - `1h` 接成工具
 - `1h` 测试
 
+### 建议参考资料
+
+- 必读：[OpenAI Retrieval Guide](https://platform.openai.com/docs/guides/retrieval)；先理解向量检索和 vector store 的基本模型。
+- 必读：[OpenAI File Search](https://platform.openai.com/docs/guides/tools-file-search)；看一个托管式检索工具如何暴露给模型使用。
+- 选读：[OpenAI Cookbook: Multi-Tool Orchestration with RAG](https://cookbook.openai.com/examples/responses_api/responses_api_tool_orchestration)；参考一个把检索接进 agent workflow 的更完整例子。
+
 ### 本周产出
 
-- `doc_retriever.py`
-- `docs_corpus/`
+- `src/mini_coding_agent/doc_retriever.py`
+- `sandbox/docs_corpus/`
 - `notes/week12.md`
 
 ### 验收标准
@@ -1010,30 +1082,31 @@ python main.py \
 
 ## 推荐阅读顺序
 
-按阶段逐步读，不要一口气全看。
+先按每周的“建议参考资料”读。这里保留一个跨周导航版本，方便你回头补读。
 
 ### 核心构建阶段
 
-- OpenAI Tools Guide
-- OpenAI Agents SDK Quickstart
-- Anthropic: Building Effective AI Agents
-- Anthropic: Writing effective tools for agents
+- 第 1-3 周：OpenAI Quickstart、Structured Outputs、Function Calling、Prompting Guide
+- 第 2-3 周：Anthropic Tool Use、Prompt Engineering Overview
+- 第 4-7 周：`rg` Guide、`pathlib`、`subprocess`、`git diff`、`argparse`
 
 ### 稳定性与测量阶段
 
-- OpenAI Agent Evals
-- Anthropic: Effective context engineering for AI agents
+- 第 8 周：Tracing、Trace Grading、OpenTelemetry Traces
+- 第 9 周：Evaluation Best Practices、Agent Evals、Demystifying Evals for AI Agents
+- 第 10 周：Effective Context Engineering、Conversation State、Prompt Caching
 
 ### 扩展阶段
 
-- MCP Architecture Overview
-- OpenAI File Search
-- OpenAI Cookbook RAG orchestration
+- 第 11 周：MCP Architecture Overview、Understanding MCP Servers、MCP Inspector
+- 第 12 周：Retrieval Guide、File Search、RAG Orchestration Cookbook
 
 ### 理论补充
 
-- Understanding the planning of LLM agents: A survey
-- A Survey on RAG Meeting LLMs
+- [Anthropic Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents)
+- [Anthropic Effective Harnesses for Long-Running Agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
+- [Understanding the planning of LLM agents: A survey](https://arxiv.org/abs/2402.02716)
+- [A Survey on RAG Meeting LLMs](https://arxiv.org/abs/2405.06211)
 
 ---
 
@@ -1106,23 +1179,35 @@ python main.py \
 
 ```text
 mini-coding-agent/
-├── main.py
-├── agent_loop.py
-├── tools.py
-├── repo_tools.py
-├── command_runner.py
-├── patch_generator.py
-├── context_manager.py
-├── tracing.py
-├── doc_retriever.py
-├── prompt_v1.md
-├── prompt_v2.md
 ├── README.md
+├── Makefile
+├── requirements.txt
+├── docs/
+│   ├── 12-week-ai-agent-plan.md
+│   ├── 12-week-ai-agent-plan.zh-CN.md
+│   ├── prompt_v1.md
+│   └── prompt_v2.md
+├── src/
+│   └── mini_coding_agent/
+│       ├── main.py
+│       ├── agent_loop.py
+│       ├── tools.py
+│       ├── repo_tools.py
+│       ├── command_runner.py
+│       ├── patch_generator.py
+│       ├── context_manager.py
+│       ├── tracing.py
+│       └── doc_retriever.py
+├── sandbox/
+│   ├── example_repo/
+│   └── docs_corpus/
 ├── notes/
 ├── logs/
 ├── eval/
 └── examples/
 ```
+
+如果你在第 1 周先用根目录脚本快速起步，建议最晚在第 3-4 周把可复用代码移动到 `src/mini_coding_agent/`。
 
 ---
 

@@ -187,6 +187,12 @@ Understand the minimum pieces of a modern LLM application before building an age
 - `1h` structured output and tool call
 - `1h` notes and cleanup
 
+### Suggested Reading
+
+- Required: [OpenAI Developer Quickstart](https://platform.openai.com/docs/quickstart); get one minimal request working first.
+- Required: [OpenAI Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs); understand why valid JSON is not the same thing as schema-conforming output.
+- Optional: [OpenAI Function Calling](https://platform.openai.com/docs/guides/function-calling); this sets up Week 2 well.
+
 ### Suggested Mini Exercises
 
 - Ask the model for a plain answer.
@@ -195,9 +201,9 @@ Understand the minimum pieces of a modern LLM application before building an age
 
 ### Deliverables
 
-- `chat_basic.py`
-- `structured_output.py`
-- `single_tool.py`
+- `src/mini_coding_agent/chat_basic.py`
+- `src/mini_coding_agent/structured_output.py`
+- `src/mini_coding_agent/single_tool.py`
 - `notes/week1.md`
 
 ### Acceptance Criteria
@@ -260,6 +266,12 @@ Build the simplest usable agent loop.
 - `2h` tool registration and execution
 - `1h` logging and stop conditions
 
+### Suggested Reading
+
+- Required: [Anthropic Tool Use Overview](https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview); study the tool call / tool result loop carefully.
+- Required: [OpenAI Conversation State](https://platform.openai.com/docs/guides/conversation-state); understand what your app must persist across turns.
+- Optional: [OpenAI Using Tools](https://platform.openai.com/docs/guides/tools); fill in the bigger picture of built-in and custom tools.
+
 ### Suggested Internal API Shape
 
 You do not need to implement exactly this, but use a stable shape early:
@@ -275,8 +287,8 @@ ToolDefinition = {
 
 ### Deliverables
 
-- `agent_loop.py`
-- `tools.py`
+- `src/mini_coding_agent/agent_loop.py`
+- `src/mini_coding_agent/tools.py`
 - `notes/week2.md`
 
 ### Acceptance Criteria
@@ -336,6 +348,12 @@ Improve stability by designing better tools and prompts.
 - `2h` tool description rewrite
 - `1h` comparison tests
 - `1h` notes
+
+### Suggested Reading
+
+- Required: [Anthropic Prompt Engineering Overview](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview); use this as the broad framework for iteration.
+- Required: [OpenAI Prompting Guide](https://platform.openai.com/docs/guides/prompting); useful for prompt versioning, variables, and iteration habits.
+- Optional: [Anthropic Chain Complex Prompts](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/chain-prompts); read this when a single prompt starts getting overloaded.
 
 ### Suggested Comparison Table
 
@@ -414,9 +432,15 @@ Pick a repo small enough to understand in under one hour:
 - `1h` safe truncation and formatting
 - `2h` question set and testing
 
+### Suggested Reading
+
+- Required: [ripgrep User Guide](https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md); this is the practical search manual behind your repo tools.
+- Required: [Python pathlib](https://docs.python.org/3/library/pathlib.html); use the standard library for path safety and file access.
+- Optional: [Anthropic Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents); focus on the sections about simple, composable, verifiable agent designs.
+
 ### Deliverables
 
-- `repo_tools.py`
+- `src/mini_coding_agent/repo_tools.py`
 - `test_repo_tasks.md`
 - `notes/week4.md`
 
@@ -493,9 +517,15 @@ Document the rules explicitly:
 - `1h` failure formatting
 - `1h` tests
 
+### Suggested Reading
+
+- Required: [Python subprocess](https://docs.python.org/3/library/subprocess.html); pay attention to `run()`, `timeout`, and the security notes.
+- Required: [Python shlex](https://docs.python.org/3/library/shlex.html); use it for basic tokenization and safer command parsing.
+- Optional: [OpenAI Safety in Building Agents](https://platform.openai.com/docs/guides/agent-builder-safety); bring prompt-injection and tool-misuse risks into scope early.
+
 ### Deliverables
 
-- `command_runner.py`
+- `src/mini_coding_agent/command_runner.py`
 - `command_policy.md`
 - `notes/week5.md`
 
@@ -551,6 +581,12 @@ Move from analysis to proposed code changes.
 - `1h` plan-before-change behavior
 - `2h` testing on bug cases
 
+### Suggested Reading
+
+- Required: [git-diff docs](https://git-scm.com/docs/git-diff); understand the core diff workflow and output boundaries.
+- Required: [diff-format docs](https://git-scm.com/docs/diff-format); learn the shape of patch text before you ask a model to emit it.
+- Optional: [Anthropic Effective Harnesses for Long-Running Agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents); especially relevant for “verify before final answer” workflows.
+
 ### Patch Review Checklist
 
 Before accepting a patch, verify:
@@ -562,7 +598,7 @@ Before accepting a patch, verify:
 
 ### Deliverables
 
-- `patch_generator.py`
+- `src/mini_coding_agent/patch_generator.py`
 - `examples/`
 - `notes/week6.md`
 
@@ -619,9 +655,9 @@ Connect the previous capabilities into one usable CLI workflow.
 You do not need to freeze the CLI yet, but aim for something like:
 
 ```bash
-python main.py \
+PYTHONPATH=src python -m mini_coding_agent.main \
   --task "Find why tests fail and propose a patch" \
-  --repo ./example_repo \
+  --repo ./sandbox/example_repo \
   --approve-run \
   --approve-patch
 ```
@@ -632,9 +668,15 @@ python main.py \
 - `1h` CLI arguments
 - `2h` test tasks
 
+### Suggested Reading
+
+- Required: [Python Argparse Tutorial](https://docs.python.org/3/howto/argparse.html); make the CLI clear, inspectable, and reproducible.
+- Required: [OpenAI Agents SDK Guide](https://platform.openai.com/docs/guides/agents-sdk/); not because you must adopt it, but because it shows which abstractions mature agent systems converge on.
+- Optional: [OpenAI Agents Best Practices](https://platform.openai.com/docs/guides/agents/best-practices); compare its workflow advice against your own CLI design.
+
 ### Deliverables
 
-- `main.py`
+- `src/mini_coding_agent/main.py`
 - `README.md`
 - `notes/week7.md`
 
@@ -708,9 +750,15 @@ Save one log file per run. Include fields like:
 - `1h` file output
 - `2h` failure review
 
+### Suggested Reading
+
+- Required: [OpenAI Agents SDK Tracing](https://openai.github.io/openai-agents-python/tracing/); see what a mature tracing surface captures.
+- Required: [OpenAI Trace Grading](https://platform.openai.com/docs/guides/trace-grading); useful once plain logs stop being enough.
+- Optional: [OpenTelemetry Traces](https://opentelemetry.io/docs/concepts/signals/traces/); borrow the vocabulary of traces, spans, and attributes.
+
 ### Deliverables
 
-- `tracing.py`
+- `src/mini_coding_agent/tracing.py`
 - `logs/`
 - `failure_taxonomy.md`
 - `notes/week8.md`
@@ -781,6 +829,12 @@ Try to include a mix like:
 - `1h` scoring format
 - `2h` baseline run
 
+### Suggested Reading
+
+- Required: [OpenAI Evaluation Best Practices](https://platform.openai.com/docs/guides/evaluation-best-practices); set your eval design principles first.
+- Required: [OpenAI Agent Evals](https://platform.openai.com/docs/guides/agent-evals); learn what changes when you evaluate agents instead of single prompts.
+- Optional: [Anthropic Demystifying Evals for AI Agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents); good multi-turn evaluation perspective.
+
 ### Deliverables
 
 - `eval/tasks.json`
@@ -845,9 +899,15 @@ Use three buckets from the start:
 - `2h` summarization logic
 - `1h` long-task comparison
 
+### Suggested Reading
+
+- Required: [Anthropic Effective Context Engineering for AI Agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents); this is the key reading for the week.
+- Required: [OpenAI Conversation State](https://platform.openai.com/docs/guides/conversation-state); revisit state handling, now through the lens of long-task stability.
+- Optional: [Anthropic Prompt Caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching); useful for thinking about reusable versus on-demand context.
+
 ### Deliverables
 
-- `context_manager.py`
+- `src/mini_coding_agent/context_manager.py`
 - `memory_notes.md`
 - `notes/week10.md`
 
@@ -911,6 +971,12 @@ Aim to leave the week with:
 - `2h` reading
 - `1h` diagramming
 - `1-2h` simple example or note writing
+
+### Suggested Reading
+
+- Required: [MCP Architecture Overview](https://modelcontextprotocol.io/docs/learn/architecture); get the host / client / server and primitive model straight first.
+- Required: [Understanding MCP Servers](https://modelcontextprotocol.io/docs/learn/server-concepts); focus on the boundary between tools, resources, and prompts.
+- Optional: [MCP Inspector](https://modelcontextprotocol.io/docs/tools); the fastest way to inspect a real server if you run an example.
 
 ### Deliverables
 
@@ -983,10 +1049,16 @@ Do not start with a large knowledge base. Start with:
 - `1h` tool wiring
 - `1h` evaluation
 
+### Suggested Reading
+
+- Required: [OpenAI Retrieval Guide](https://platform.openai.com/docs/guides/retrieval); understand semantic search and vector stores first.
+- Required: [OpenAI File Search](https://platform.openai.com/docs/guides/tools-file-search); see how retrieval can be exposed directly to the model as a tool.
+- Optional: [OpenAI Cookbook: Multi-Tool Orchestration with RAG](https://cookbook.openai.com/examples/responses_api/responses_api_tool_orchestration); reference a more complete retrieval-enabled workflow.
+
 ### Deliverables
 
-- `doc_retriever.py`
-- `docs_corpus/`
+- `src/mini_coding_agent/doc_retriever.py`
+- `sandbox/docs_corpus/`
 - `notes/week12.md`
 
 ### Acceptance Criteria
@@ -1009,30 +1081,31 @@ Do not start with a large knowledge base. Start with:
 
 ## Recommended Reading Order
 
-Use these resources progressively instead of reading everything at once.
+Follow the weekly “Suggested Reading” sections first. This section is the cross-week navigation view.
 
 ### Core Build Phase
 
-- OpenAI Tools Guide
-- OpenAI Agents SDK Quickstart
-- Anthropic: Building Effective AI Agents
-- Anthropic: Writing effective tools for agents
+- Weeks 1-3: OpenAI Quickstart, Structured Outputs, Function Calling, and Prompting Guide
+- Weeks 2-3: Anthropic Tool Use and Prompt Engineering Overview
+- Weeks 4-7: `rg` Guide, `pathlib`, `subprocess`, `git diff`, and `argparse`
 
 ### Stability and Measurement Phase
 
-- OpenAI Agent Evals
-- Anthropic: Effective context engineering for AI agents
+- Week 8: Tracing, Trace Grading, and OpenTelemetry Traces
+- Week 9: Evaluation Best Practices, Agent Evals, and Demystifying Evals for AI Agents
+- Week 10: Effective Context Engineering, Conversation State, and Prompt Caching
 
 ### Extension Phase
 
-- MCP Architecture Overview
-- OpenAI File Search
-- OpenAI Cookbook RAG orchestration
+- Week 11: MCP Architecture Overview, Understanding MCP Servers, and MCP Inspector
+- Week 12: Retrieval Guide, File Search, and the RAG orchestration cookbook
 
 ### Theory Support
 
-- Understanding the planning of LLM agents: A survey
-- A Survey on RAG Meeting LLMs
+- [Anthropic Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents)
+- [Anthropic Effective Harnesses for Long-Running Agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
+- [Understanding the planning of LLM agents: A survey](https://arxiv.org/abs/2402.02716)
+- [A Survey on RAG Meeting LLMs](https://arxiv.org/abs/2405.06211)
 
 ---
 
@@ -1105,23 +1178,35 @@ The best version of this plan is the one you actually run. Keep the system small
 
 ```text
 mini-coding-agent/
-├── main.py
-├── agent_loop.py
-├── tools.py
-├── repo_tools.py
-├── command_runner.py
-├── patch_generator.py
-├── context_manager.py
-├── tracing.py
-├── doc_retriever.py
-├── prompt_v1.md
-├── prompt_v2.md
 ├── README.md
+├── Makefile
+├── requirements.txt
+├── docs/
+│   ├── 12-week-ai-agent-plan.md
+│   ├── 12-week-ai-agent-plan.zh-CN.md
+│   ├── prompt_v1.md
+│   └── prompt_v2.md
+├── src/
+│   └── mini_coding_agent/
+│       ├── main.py
+│       ├── agent_loop.py
+│       ├── tools.py
+│       ├── repo_tools.py
+│       ├── command_runner.py
+│       ├── patch_generator.py
+│       ├── context_manager.py
+│       ├── tracing.py
+│       └── doc_retriever.py
+├── sandbox/
+│   ├── example_repo/
+│   └── docs_corpus/
 ├── notes/
 ├── logs/
 ├── eval/
 └── examples/
 ```
+
+If you start with root-level prototype files in Week 1, move reusable code under `src/mini_coding_agent/` by Week 3 or 4.
 
 ---
 
