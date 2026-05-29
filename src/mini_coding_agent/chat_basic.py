@@ -1,5 +1,13 @@
+from typing import cast
+
+from openai.types.chat import (
+    ChatCompletionAssistantMessageParam,
+    ChatCompletionMessageParam,
+    ChatCompletionToolMessageParam,
+)
+
 from .llm_client import create_client
-from .single_tool import MATH_TOOL, MathReasoning
+from .single_tool import CALCULATOR_TOOL, CalculatorInput, run_calculator
 
 
 def main() -> None:
@@ -16,20 +24,41 @@ def main() -> None:
         if input_message.lower() in ["exit", "quit"]:
             break
 
+        messages: list[ChatCompletionMessageParam] = [
+            {"role": "user", "content": input_message}
+        ]
+
         response = client.chat.completions.create(
             model=settings["model"],
-            messages=[{"role": "user", "content": input_message}],
-            tools=[MATH_TOOL],
-            tool_choice="auto",  # model decides whether to call the tool
+            messages=messages,
+            tools=[CALCULATOR_TOOL],
+            tool_choice="auto",
         )
 
         msg = response.choices[0].message
 
         if msg.tool_calls:
-            # Go 类比: union type 断言 — 模型返回了结构化数据
-            raw = msg.tool_calls[0].function.arguments
-            result = MathReasoning.model_validate_json(raw)
-            print(result.model_dump_json(indent=2))
+            assistant_message = cast(
+                ChatCompletionAssistantMessageParam,
+                msg.model_dump(exclude_none=True),
+            )
+            messages.append(assistant_message)
+
+            for tool_call in msg.tool_calls:
+                args = CalculatorInput.model_validate_json(tool_call.function.arguments)
+                result = run_calculator(args.expression)
+                tool_message: ChatCompletionToolMessageParam = {
+                    "role": "tool",
+                    "tool_call_id": tool_call.id,
+                    "content": result,
+                }
+                messages.append(tool_message)
+
+            follow_up = client.chat.completions.create(
+                model=settings["model"],
+                messages=messages,
+            )
+            print(f"Assistant(Tool): {follow_up.choices[0].message.content}")
         else:
             print(f"Assistant: {msg.content}")
 
