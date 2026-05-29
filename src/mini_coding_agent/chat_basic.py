@@ -1,58 +1,37 @@
 from .llm_client import create_client
-from .structured_output import MathReasoning
+from .single_tool import MATH_TOOL, MathReasoning
 
 
 def main() -> None:
-    # welcome
     print("Welcome to MINI_CODING_AGENT")
 
-    # create client
     client, settings = create_client()
 
-    # while True:
-    #     input_message = input("You: ").strip()
+    while True:
+        input_message = input("You: ").strip()
 
-    #     if not input_message:
-    #         continue
+        if not input_message:
+            continue
 
-    #     if input_message.lower() in {"exit", "quit"}:
-    #         print("Bye")
-    #         break
+        if input_message.lower() in ["exit", "quit"]:
+            break
 
-    #     response = client.chat.completions.create(
-    #         model=settings["model"],
-    #         messages=[
-    #             {
-    #                 "role": "user",
-    #                 "content": input_message,
-    #             }
-    #         ],
-    #     )
+        response = client.chat.completions.create(
+            model=settings["model"],
+            messages=[{"role": "user", "content": input_message}],
+            tools=[MATH_TOOL],
+            tool_choice="auto",  # model decides whether to call the tool
+        )
 
-    #     print(f"provider: {settings['provider']}")
-    #     print(f"model: {settings['model']}")
-    #     print(response.choices[0].message.content)
-    #
-    #
+        msg = response.choices[0].message
 
-    response = client.chat.completions.parse(
-        model=settings["model"],
-        messages=[
-            {
-                "role": "user",
-                "content": "How can I solve 8x + 7 = -23? Guide the user through the solution step by step.",
-            }
-        ],
-        response_format=MathReasoning,
-    )
-
-    parsed = response.choices[0].message.parsed
-
-    if parsed is None:
-        print("No structured output was parsed.")
-        return
-
-    print(parsed.model_dump_json(indent=2))
+        if msg.tool_calls:
+            # Go 类比: union type 断言 — 模型返回了结构化数据
+            raw = msg.tool_calls[0].function.arguments
+            result = MathReasoning.model_validate_json(raw)
+            print(result.model_dump_json(indent=2))
+        else:
+            print(f"Assistant: {msg.content}")
 
 
 if __name__ == "__main__":
