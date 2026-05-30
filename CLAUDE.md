@@ -21,3 +21,13 @@ After every code change, explain the modified code using Go concepts as analogie
 - `response_format` / tool calling → Go interface / union type dispatch
 
 The goal is to help the user build intuition by mapping unfamiliar Python/AI SDK patterns to familiar Go patterns.
+
+### 3. Run Type Check
+
+After every code change, run the type checker to catch type errors before finishing:
+
+```bash
+.venv/bin/python -m pyright src/
+```
+
+Fix any `reportArgumentType`, `reportGeneralTypeIssues`, or `reportMissingImports` errors before considering the task done.

@@ -1,19 +1,16 @@
-from typing import cast
-
 from openai.types.chat import (
-    ChatCompletionAssistantMessageParam,
     ChatCompletionMessageParam,
-    ChatCompletionToolMessageParam,
 )
 
+from .agent_loop import agent_loop
 from .llm_client import create_client
-from .single_tool import CALCULATOR_TOOL, CalculatorInput, run_calculator
+from .tools import tool_list
 
 
 def main() -> None:
     print("Welcome to MINI_CODING_AGENT")
 
-    client, settings = create_client()
+    llm = create_client()
 
     while True:
         input_message = input("You: ").strip()
@@ -28,37 +25,18 @@ def main() -> None:
             {"role": "user", "content": input_message}
         ]
 
-        response = client.chat.completions.create(
-            model=settings["model"],
+        response = llm.client.chat.completions.create(
+            model=llm.model,
             messages=messages,
-            tools=[CALCULATOR_TOOL],
+            tools=[t.schema for t in tool_list],
             tool_choice="auto",
         )
 
         msg = response.choices[0].message
 
         if msg.tool_calls:
-            assistant_message = cast(
-                ChatCompletionAssistantMessageParam,
-                msg.model_dump(exclude_none=True),
-            )
-            messages.append(assistant_message)
-
-            for tool_call in msg.tool_calls:
-                args = CalculatorInput.model_validate_json(tool_call.function.arguments)
-                result = run_calculator(args.expression)
-                tool_message: ChatCompletionToolMessageParam = {
-                    "role": "tool",
-                    "tool_call_id": tool_call.id,
-                    "content": result,
-                }
-                messages.append(tool_message)
-
-            follow_up = client.chat.completions.create(
-                model=settings["model"],
-                messages=messages,
-            )
-            print(f"Assistant(Tool): {follow_up.choices[0].message.content}")
+            result = agent_loop(llm,messages,msg,tool_list,20)
+            print(f"Assistant(Tool): {result}")
         else:
             print(f"Assistant: {msg.content}")
 

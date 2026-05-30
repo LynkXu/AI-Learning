@@ -1,4 +1,5 @@
 import os
+from dataclasses import dataclass
 
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -18,6 +19,12 @@ PROVIDERS: dict[str, dict[str, str]] = {
         "api_key_env": "OPENROUTER_API_KEY",
     },
 }
+
+
+@dataclass
+class LLMClient:
+    client: OpenAI
+    model: str
 
 
 def load_settings() -> dict[str, str]:
@@ -46,10 +53,9 @@ def load_settings() -> dict[str, str]:
     }
 
 
-def create_client() -> tuple[OpenAI, dict[str, str]]:
+def create_client() -> LLMClient:
     settings = load_settings()
-    client = OpenAI(
-        api_key=settings["api_key"],
-        base_url=settings["base_url"],
+    return LLMClient(
+        client=OpenAI(api_key=settings["api_key"], base_url=settings["base_url"]),
+        model=settings["model"],
     )
-    return client, settings
