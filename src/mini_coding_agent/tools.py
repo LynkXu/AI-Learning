@@ -19,24 +19,29 @@ class ToolDefinition:
 # input schemas
 # ------------------------
 
+
 class GetTime(BaseModel):
     """Get the current time in a specified timezone."""
+
     timezone: str
 
 
 class EchoText(BaseModel):
     """Echo back the input text."""
+
     text: str
 
 
 class ReadTextFile(BaseModel):
     """Read the content of a text file given its file path."""
+
     file_path: str
 
 
 # ------------------------
 # tool implementations
 # ------------------------
+
 
 def run_get_time(timezone: str) -> str:
     try:
@@ -71,7 +76,11 @@ GET_TIME = ToolDefinition(
     schema=openai.pydantic_function_tool(
         GetTime,
         name="get_time",
-        description="Get the current time in a specified timezone. Format: 'Continent/City', e.g. 'America/New_York'.",
+        description=(
+            "Use this tool when the user asks for the current time or current date in a specific timezone. "
+            "The input must be a valid IANA timezone string such as 'America/New_York' or 'Asia/Shanghai'. "
+            "Do not use this tool for timezone conversion, scheduling advice, or when the user did not ask for the current time."
+        ),
     ),
     handler=run_get_time,
 )
