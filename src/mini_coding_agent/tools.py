@@ -90,7 +90,10 @@ ECHO_TEXT = ToolDefinition(
     schema=openai.pydantic_function_tool(
         EchoText,
         name="echo_text",
-        description="Echo back the input text.",
+        description=(
+            "Use this tool to echo back the input text. The input is a string and the output should be exactly the same string. This tool is useful for testing and debugging purposes."
+            "Do not use this tool unless the user explicitly asks you to repeat some text back to them, or if you want to confirm that you understood the user's input correctly by echoing it back."
+        ),
     ),
     handler=run_echo_text,
 )
@@ -100,7 +103,12 @@ READ_TEXT_FILE = ToolDefinition(
     schema=openai.pydantic_function_tool(
         ReadTextFile,
         name="read_text_file",
-        description="Read the content of a text file. The file path must be an absolute path.",
+        description=(
+            "Use this tool to read the content of a text file given its file path. The file path should be absolute or relative to the current working directory."
+            "The input is a string representing the file path, and the output should be the content of the file as a string."
+            "Use this tool when the user asks you to read a text file or when you need to access information stored in a text file. Make sure to handle errors gracefully, such as when the file does not exist or cannot be read."
+            "Do not use this tool for non-text files, for writing to files, or when the user did not ask for file content."
+        ),
     ),
     handler=run_read_text_file,
 )
