@@ -23,7 +23,9 @@ def agent_loop(
     msg = first_response
 
     for _ in range(max_turns):
-        # Append assistant message first so the model sees its own tool calls
+        if not msg.tool_calls:
+            return msg.content or ""
+
         messages.append(msg.model_dump(exclude_unset=True))  # type: ignore[arg-type]
 
         for tool_call in msg.tool_calls or []:
@@ -39,8 +41,6 @@ def agent_loop(
         )
 
         msg = response.choices[0].message
-        if not msg.tool_calls:
-            return msg.content or ""
 
     return "Error: Exceeded maximum number of turns without a final answer."
 

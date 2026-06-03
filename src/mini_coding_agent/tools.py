@@ -1,9 +1,9 @@
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import openai
-import pytz
 from openai.types.chat import ChatCompletionToolParam
 from pydantic import BaseModel
 
@@ -45,8 +45,8 @@ class ReadTextFile(BaseModel):
 
 def run_get_time(timezone: str) -> str:
     try:
-        tz = pytz.timezone(timezone)
-    except pytz.UnknownTimeZoneError:
+        tz = ZoneInfo(timezone)
+    except ZoneInfoNotFoundError:
         return f"Error: Unknown timezone '{timezone}'. Please provide a valid timezone in the format 'Continent/City'."
 
     now = datetime.now(tz)
