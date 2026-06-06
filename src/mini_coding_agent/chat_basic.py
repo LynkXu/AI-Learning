@@ -2,7 +2,7 @@ from openai.types.chat import ChatCompletionMessageParam
 
 from .agent_loop import agent_loop
 from .llm_client import create_client
-from .single_tool import RUN_ANYTHING_TOOL
+from .tools import RUN_ANYTHING_TOOL
 
 SYSTEM_PROMPT = """You are a minimal coding assistant. You help users with coding questions and file-related tasks.
 

@@ -46,8 +46,7 @@ def agent_loop(
 
 
 def execute_tool(
-    tool_call: ChatCompletionMessageFunctionToolCall,
-    tools: list[ToolDefinition]
+    tool_call: ChatCompletionMessageFunctionToolCall, tools: list[ToolDefinition]
 ) -> str:
     handlers = {t.name: t.handler for t in tools}
     handler = handlers.get(tool_call.function.name)
@@ -60,8 +59,7 @@ def execute_tool(
 
 
 def tool_result_message(
-    tool_call: ChatCompletionMessageFunctionToolCall,
-    result: str
+    tool_call: ChatCompletionMessageFunctionToolCall, result: str
 ) -> ChatCompletionToolMessageParam:
     return {
         "role": "tool",

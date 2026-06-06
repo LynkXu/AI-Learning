@@ -1,23 +1,10 @@
-from collections.abc import Callable
-from dataclasses import dataclass
 from datetime import datetime
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import openai
-from openai.types.chat import ChatCompletionToolParam
 from pydantic import BaseModel
 
-
-@dataclass
-class ToolDefinition:
-    name: str
-    schema: ChatCompletionToolParam
-    handler: Callable[..., str]
-
-
-# ------------------------
-# input schemas
-# ------------------------
+from .base import ToolDefinition
 
 
 class GetTime(BaseModel):
@@ -36,11 +23,6 @@ class ReadTextFile(BaseModel):
     """Read the content of a text file given its file path."""
 
     file_path: str
-
-
-# ------------------------
-# tool implementations
-# ------------------------
 
 
 def run_get_time(timezone: str) -> str:
@@ -66,10 +48,6 @@ def run_read_text_file(file_path: str) -> str:
     except Exception as e:
         return f"Error reading file: {str(e)}"
 
-
-# ------------------------
-# tool registry
-# ------------------------
 
 GET_TIME = ToolDefinition(
     name="get_time",

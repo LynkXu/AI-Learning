@@ -1,7 +1,8 @@
 import openai
 from pydantic import BaseModel
 
-from .tools import ToolDefinition, run_echo_text, run_get_time, run_read_text_file
+from .base import ToolDefinition
+from .basic import run_echo_text, run_get_time, run_read_text_file
 
 
 class RunAnything(BaseModel):
