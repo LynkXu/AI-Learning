@@ -54,7 +54,7 @@ def execute_tool(
         return f"Error: Unknown tool '{tool_call.function.name}'."
     args = json.loads(tool_call.function.arguments)
 
-    print(f"Executing tool '{tool_call.function.name}' with arguments: {args}")
+    print(f"Executing tool '{tool_call.function.name}' with arguments: {args} \n")
     return handler(**args)
 
 
