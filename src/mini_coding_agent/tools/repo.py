@@ -1,9 +1,15 @@
+import os
+
 import openai
 from pydantic import BaseModel
 
 from .base import ToolDefinition
+from .security import _safe_path
 
 
+# -------------
+# utility functions
+# -------------
 class ListFiles(BaseModel):
     directory_path: str
     pattern: str = ""
@@ -22,15 +28,19 @@ class SearchCode(BaseModel):
 # --------------
 def list_files(directory_path: str, pattern: str = "") -> str:
     import fnmatch
-    import os
+
+    try:
+        safe_dir = _safe_path(directory_path or ".")
+    except ValueError as e:
+        return str(e)
 
     maxFileCount = 200
     files = []
-    for root, dirs, filenames in os.walk(directory_path or "."):
+    for root, dirs, filenames in os.walk(safe_dir):
         for filename in filenames:
             if pattern and not fnmatch.fnmatch(filename, f"*{pattern}*"):
                 continue
-            files.append(os.path.relpath(os.path.join(root, filename), directory_path or "."))
+            files.append(os.path.relpath(os.path.join(root, filename), safe_dir))
             if len(files) >= maxFileCount:
                 break
         if len(files) >= maxFileCount:
@@ -44,7 +54,8 @@ def list_files(directory_path: str, pattern: str = "") -> str:
 def read_file(file_path: str) -> str:
     max_lines = 100
     try:
-        with open(file_path, "r") as f:
+        safe_file = _safe_path(file_path)
+        with open(safe_file, "r") as f:
             lines = []
             truncated = False
             for line in f:
@@ -56,6 +67,8 @@ def read_file(file_path: str) -> str:
         if truncated:
             numbered += "\n... (truncated)"
         return numbered
+    except ValueError as e:
+        return str(e)
     except Exception as e:
         return f"Error reading file: {e}"
 
