@@ -4,7 +4,7 @@ import openai
 from pydantic import BaseModel
 
 from .base import ToolDefinition
-from .security import _safe_path
+from .security import safe_path
 
 
 # -------------
@@ -30,7 +30,7 @@ def list_files(directory_path: str, pattern: str = "") -> str:
     import fnmatch
 
     try:
-        safe_dir = _safe_path(directory_path or ".")
+        safe_dir = safe_path(directory_path or ".")
     except ValueError as e:
         return str(e)
 
@@ -54,7 +54,7 @@ def list_files(directory_path: str, pattern: str = "") -> str:
 def read_file(file_path: str) -> str:
     max_lines = 100
     try:
-        safe_file = _safe_path(file_path)
+        safe_file = safe_path(file_path)
         with open(safe_file, "r") as f:
             lines = []
             truncated = False
